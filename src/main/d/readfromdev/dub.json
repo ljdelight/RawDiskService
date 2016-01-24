@@ -1,0 +1,10 @@
+{
+    "name": "readfromdev",
+    "description": "Send a read capacity to a given device, lba offset, and num blocks",
+    "copyright": "Copyright © 2016, Lucas Burson",
+    "authors": ["Lucas Burson"],
+    "dependencies": {
+        "sgio-d": {"version": "*"}
+    },
+    "targetType": "executable"
+}
