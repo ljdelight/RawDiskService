@@ -17,7 +17,8 @@ run-client: final
 		java -cp build/libs/RawDiskService-all.jar com.ljdelight.rawdisk.RawDiskServer \
 		& echo $$! > server.pid
 	sleep 2
-	java -cp build/libs/RawDiskService-all.jar com.ljdelight.rawdisk.RawDiskClient
+	java -cp build/libs/RawDiskService-all.jar com.ljdelight.rawdisk.RawDiskClient \
+		localhost 9093 /dev/sdb 1
 	sudo kill -9 `cat server.pid`
 	rm -f server.pid
 
