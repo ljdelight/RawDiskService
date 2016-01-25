@@ -20,6 +20,10 @@ namespace java com.ljdelight.rawdisk.generated
 #
 #
 
+exception ServerNativeException {
+    1: required string msg;
+}
+
 struct DiskDevice {
     1: required string path;
     2: required i64 block_size_bytes;
@@ -29,8 +33,5 @@ struct DiskDevice {
 
 service RawDisk {
     list<DiskDevice> getDiskDevices(),
-    string readLBAPretty(1:string path, 2:i64 offset_lba),
+    string readLBAPretty(1:string path, 2:i64 offset_lba) throws (1: ServerNativeException e),
 }
-
-
-

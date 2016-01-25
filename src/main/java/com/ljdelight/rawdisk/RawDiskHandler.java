@@ -11,8 +11,11 @@ import org.apache.thrift.TException;
 
 import com.ljdelight.rawdisk.generated.DiskDevice;
 import com.ljdelight.rawdisk.generated.RawDisk;
+import com.ljdelight.rawdisk.generated.ServerNativeException;
 
 public class RawDiskHandler implements RawDisk.Iface {
+
+    private static final int READ_WAIT_TIME_MS = 3000;
 
     @Override
     public List<DiskDevice> getDiskDevices() throws TException {
@@ -24,32 +27,34 @@ public class RawDiskHandler implements RawDisk.Iface {
     @Override
     public String readLBAPretty(String path, long offset_lba) throws TException {
         // Read 1 block from the device at give offset
-        ProcessBuilder rawDiskPb = new ProcessBuilder("readfromdev",
-                path, Long.toString(offset_lba), "1");
+        ProcessBuilder rawDiskPb = new ProcessBuilder("readfromdev", path, Long.toString(offset_lba), "1");
         rawDiskPb.redirectErrorStream(true);
-        System.out.println(rawDiskPb.command());
+
         try {
+            System.out.println("Executing " + rawDiskPb.command());
             Process p = rawDiskPb.start();
 
             // capture the call's output
             StringBuilder builder = new StringBuilder();
             BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            String line = null;
+            String line;
             while ((line = reader.readLine()) != null) {
                 builder.append(line);
                 builder.append(System.getProperty("line.separator"));
             }
-            String result = builder.toString();
-            p.waitFor(3, TimeUnit.SECONDS);
-            return result;
 
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            p.waitFor(RawDiskHandler.READ_WAIT_TIME_MS, TimeUnit.MILLISECONDS);
+
+            if (p.exitValue() != 0) {
+                System.err.println("Non-zero exit status in readfromdev:");
+                System.err.println(builder.toString());
+                throw new ServerNativeException("Non-zero exit status from readfromdev");
+            }
+            return builder.toString();
+
+        } catch (IOException | InterruptedException e) {
+            System.err.println("Caught exception: " + e.getMessage());
+            throw new ServerNativeException(e.getMessage());
         }
-        return "none";
     }
 }
