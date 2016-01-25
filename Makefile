@@ -14,7 +14,7 @@ readfromdev:
 
 run-client: final
 	sudo PATH=src/main/d/readfromdev/:$$PATH \
-		java -cp build/libs/RawDiskService-all.jar com.ljdelight.rawdisk.RawDiskServer 9003 \
+		java -cp build/libs/RawDiskService-all.jar com.ljdelight.rawdisk.RawDiskServer 9093 \
 		& echo $$! > server.pid
 	sleep 2
 	java -cp build/libs/RawDiskService-all.jar com.ljdelight.rawdisk.RawDiskClient \
