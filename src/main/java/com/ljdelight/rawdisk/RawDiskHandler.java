@@ -1,5 +1,7 @@
 package com.ljdelight.rawdisk;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -14,7 +16,7 @@ import com.ljdelight.rawdisk.generated.RawDisk;
 import com.ljdelight.rawdisk.generated.ServerNativeException;
 
 public class RawDiskHandler implements RawDisk.Iface {
-
+    private static final Logger logger = LogManager.getLogger(RawDiskHandler.class);
     private static final int READ_WAIT_TIME_MS = 3000;
 
     @Override
@@ -31,7 +33,7 @@ public class RawDiskHandler implements RawDisk.Iface {
         rawDiskPb.redirectErrorStream(true);
 
         try {
-            System.out.println("Executing " + rawDiskPb.command());
+            logger.debug("Executing {}", rawDiskPb.command());
             Process p = rawDiskPb.start();
 
             // capture the call's output
@@ -46,14 +48,14 @@ public class RawDiskHandler implements RawDisk.Iface {
             p.waitFor(RawDiskHandler.READ_WAIT_TIME_MS, TimeUnit.MILLISECONDS);
 
             if (p.exitValue() != 0) {
-                System.err.println("Non-zero exit status in readfromdev:");
-                System.err.println(builder.toString());
+                logger.error("Non-zero exit status in readfromdev and throwing ServerNativeException");
+                logger.error("Process output: '{}'", builder.toString());
                 throw new ServerNativeException("Non-zero exit status from readfromdev");
             }
             return builder.toString();
 
         } catch (IOException | InterruptedException e) {
-            System.err.println("Caught exception: " + e.getMessage());
+            logger.error("Problem creating process", e);
             throw new ServerNativeException(e.getMessage());
         }
     }

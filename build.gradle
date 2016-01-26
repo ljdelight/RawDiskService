@@ -6,6 +6,8 @@ repositories {
 }
 
 dependencies {
+    compile "org.apache.logging.log4j:log4j-api:2+"
+    compile "org.apache.logging.log4j:log4j-core:2+"
     compile "org.apache.thrift:libthrift:0.9+"
     compile "org.slf4j:slf4j-simple:1.7+"
     testCompile "junit:junit:4.12+"
