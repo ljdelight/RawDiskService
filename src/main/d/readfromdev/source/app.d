@@ -24,6 +24,7 @@ int main(string[] args)
     // TODO: this should be generalized somehow. nasty os-specific.
     version (Windows)
     {
+        import core.sys.windows.windows;
         wchar* thefile = std.utf.toUTFz!(wchar*)(deviceName);
         auto file = CreateFileW(thefile,
             GENERIC_WRITE|GENERIC_READ,
