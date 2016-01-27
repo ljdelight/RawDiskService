@@ -1,3 +1,7 @@
 build/
-.*
+.project
+.classpath
+.gen*
+.settings/
+.gradle/
 /bin/
