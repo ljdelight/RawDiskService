@@ -1,16 +1,18 @@
 
 BUILD := build
 
-final: .gen-java readfromdev
+final: readfromdev
 	gradle fatJar
 
 .PHONY: readfromdev
 readfromdev:
 	dub --root=src/main/d/readfromdev/ build
 
-.gen-java: src/main/thrift/rawdisk.thrift
+# Use this target when the thrift file is modified.
+#
+.PHONY: gen-thrift
+gen-thrift: src/main/thrift/rawdisk.thrift
 	thrift --gen java:hashcode,generated_annotations=undated -out src/main/java/ $<
-	touch $@
 
 run-client: final
 	sudo PATH=src/main/d/readfromdev/:$$PATH \
@@ -25,6 +27,6 @@ run-client: final
 .PHONY: clean
 clean:
 	dub --root=src/main/d/readfromdev/ clean
-	-rm -rf src/main/java/com/ljdelight/rawdisk/generated/
 	-rm -rf ${BUILD}
-	-rm -f .gen-java
+	-rm -f .gen-*
+
