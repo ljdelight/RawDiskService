@@ -1,0 +1,19 @@
+language: java
+sudo: true
+jdk:
+  - oraclejdk8
+
+before_install:
+  # Install dmd compiler
+  - wget http://downloads.dlang.org/releases/2.x/2.070.0/dmd_2.070.0-0_amd64.deb
+  - sudo dpkg -i dmd_2.070.0-0_amd64.deb
+  - rm -f dmd_2.070.0-0_amd64.deb
+
+  # Install dub package manager
+  - wget http://code.dlang.org/files/dub-0.9.24-linux-x86_64.tar.gz
+  - tar xzf dub-0.9.24-linux-x86_64.tar.gz
+  - sudo install --owner=root --group=root --mod=755 dub /usr/local/bin/
+  - rm -f dub-0.9.24-linux-x86_64.tar.gz
+
+script:
+  - make final || exit 1
