@@ -36,7 +36,7 @@ gen-deb: jar readfromdev LICENSE rawdisk.deb.init
 	install --mode=0555 src/main/d/readfromdev/readfromdev build/deb/opt/ljdelight/rawdisk/
 	install --mode=0755 rawdisk.deb.init build/deb/etc/init.d/rawdisk
 	fpm -s dir -t deb -C build/deb \
-		--version current --name ljdelight-rawdisk --architecture amd64 \
+		--version 0.1.0 --name ljdelight-rawdisk --architecture amd64 \
 		--deb-no-default-config-files \
 		--deb-user root --deb-group root
 	touch $@
