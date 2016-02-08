@@ -28,13 +28,13 @@ run-client: final
 	sudo kill -9 `cat server.pid`
 	rm -f server.pid
 
-gen-deb: jar readfromdev LICENSE rawdisk.deb.init
+gen-deb: jar readfromdev LICENSE ljdelight-rawdisk.deb.init
 	mkdir -p build/deb/opt/ljdelight/rawdisk/
 	mkdir -p build/deb/etc/init.d/
 	install --mode=0444 build/libs/*.jar build/deb/opt/ljdelight/rawdisk/
 	install --mode=0444 LICENSE build/deb/opt/ljdelight/rawdisk/
 	install --mode=0555 src/main/d/readfromdev/readfromdev build/deb/opt/ljdelight/rawdisk/
-	install --mode=0755 rawdisk.deb.init build/deb/etc/init.d/rawdisk
+	install --mode=0755 ljdelight-rawdisk.deb.init build/deb/etc/init.d/ljdelight-rawdisk
 	fpm -s dir -t deb -C build/deb \
 		--version 0.1.0 --name ljdelight-rawdisk --architecture amd64 \
 		--deb-no-default-config-files \
