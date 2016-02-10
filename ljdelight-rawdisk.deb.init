@@ -10,7 +10,6 @@
 # Description:        rawdisk service for remote drive access
 ### END INIT INFO
 
-set -e
 
 NAME=rawdisk
 DESC=rawdisk
