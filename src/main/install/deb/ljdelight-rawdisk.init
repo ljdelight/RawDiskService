@@ -1,5 +1,4 @@
 #!/bin/sh
-
 ### BEGIN INIT INFO
 # Provides:           rawdisk
 # Required-Start:     $local_fs $remote_fs $network $syslog $named
@@ -10,6 +9,7 @@
 # Description:        rawdisk service for remote drive access
 ### END INIT INFO
 
+set -e
 
 NAME=rawdisk
 DESC=rawdisk
