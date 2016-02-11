@@ -1,0 +1,16 @@
+[Unit]
+Description=Rawdisk service for remote block access
+After=syslog.target network.target
+
+[Service]
+Type=simple
+Environment=PORT=9093
+Environment=CLASSPATH=/opt/ljdelight/rawdisk/RawDiskService-all.jar
+
+ExecStart=/usr/bin/java -classpath ${CLASSPATH} com.ljdelight.rawdisk.RawDiskServer ${PORT}
+Restart=on-failure
+RestartSec=3s
+SuccessExitStatus=0 SIGHUP SIGINT SIGTERM SIGPIPE
+
+[Install]
+WantedBy=multi-user.target
