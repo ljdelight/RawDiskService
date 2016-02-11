@@ -38,10 +38,14 @@ gen-deb: jar readfromdev LICENSE src/main/install/deb/ljdelight-rawdisk.init
 	install --mode=0755 src/main/install/deb/ljdelight-rawdisk.init build/deb/opt/ljdelight/rawdisk/
 	install --mode=0644 src/main/install/deb/ljdelight-rawdisk.service build/deb/opt/ljdelight/rawdisk/
 	fpm -s dir -t deb -C build/deb \
-		--version 0.1.0 --name ljdelight-rawdisk --architecture amd64 \
+		--version 0.1.2 --name ljdelight-rawdisk --architecture amd64 \
 		--deb-no-default-config-files \
 		--after-install src/main/install/deb/postinst.sh \
 		--after-remove src/main/install/deb/postrm.sh \
+		--maintainer "Lucas Burson" \
+		--vendor "Lucas Burson" \
+		--url http://ljdelight.com \
+		--license BSL-1.0 \
 		--deb-user root --deb-group root
 	touch $@
 
