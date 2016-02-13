@@ -1,8 +1,16 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
+apply plugin: 'findbugs'
 
 repositories {
 	mavenCentral()
+}
+
+findbugs {
+    ignoreFailures = true
+    effort = "max"
+    reportLevel = "low"
+    excludeFilter = file("$rootProject.projectDir/config/findbugs/excludeFilter.xml")
 }
 
 dependencies {

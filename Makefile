@@ -6,7 +6,7 @@ final: jar readfromdev
 
 .PHONY: jar
 jar:
-	gradle fatJar
+	gradle fatJar check
 
 .PHONY: readfromdev
 readfromdev:
