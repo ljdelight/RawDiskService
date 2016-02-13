@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+    <!-- do not analyze any of the thrift generated code -->
+    <Match>
+        <Package name="com.ljdelight.rawdisk.generated" />
+    </Match>
+</FindBugsFilter>
