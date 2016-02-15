@@ -23,7 +23,6 @@ public class RawDiskHandler implements RawDisk.Iface {
     public List<DiskDevice> getDiskDevices() throws TException {
         // TODO Auto-generated method stub
         return new LinkedList<DiskDevice>();
-        // return null;
     }
 
     @Override
