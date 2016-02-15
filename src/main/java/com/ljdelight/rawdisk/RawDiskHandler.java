@@ -1,7 +1,5 @@
 package com.ljdelight.rawdisk;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,6 +7,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.thrift.TException;
 
 import com.ljdelight.rawdisk.generated.DiskDevice;
@@ -31,6 +31,7 @@ public class RawDiskHandler implements RawDisk.Iface {
         // Read 1 block from the device at give offset
         ProcessBuilder rawDiskPb = new ProcessBuilder("readfromdev", path, Long.toString(offset_lba), "1");
         rawDiskPb.redirectErrorStream(true);
+        BufferedReader reader = null;
 
         try {
             logger.debug("Executing {}", rawDiskPb.command());
@@ -38,7 +39,7 @@ public class RawDiskHandler implements RawDisk.Iface {
 
             // capture the call's output
             StringBuilder builder = new StringBuilder();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            reader = new BufferedReader(new InputStreamReader(p.getInputStream(), "UTF8"));
             String line;
             while ((line = reader.readLine()) != null) {
                 builder.append(line);
@@ -57,6 +58,15 @@ public class RawDiskHandler implements RawDisk.Iface {
         } catch (IOException | InterruptedException e) {
             logger.error("Problem creating process", e);
             throw new ServerNativeException(e.getMessage());
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    logger.error("Problem creating process", e);
+                    throw new ServerNativeException(e.getMessage());
+                }
+            }
         }
     }
 }
