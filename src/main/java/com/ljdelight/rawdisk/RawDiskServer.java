@@ -13,8 +13,8 @@ import com.ljdelight.rawdisk.generated.RawDisk;
 public class RawDiskServer {
     private static final Logger logger = LogManager.getLogger(RawDiskServer.class);
 
-    public static RawDiskHandler handler;
-    public static RawDisk.Processor<RawDiskHandler> processor;
+    private static RawDiskHandler handler;
+    private static RawDisk.Processor<RawDiskHandler> processor;
 
     public static void main(String[] args) {
         if (args.length != 1) {
