@@ -3,7 +3,7 @@ apply plugin: 'eclipse'
 apply plugin: 'findbugs'
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 findbugs {
@@ -28,9 +28,9 @@ task fatJar(type: Jar) {
 }
 
 uploadArchives {
-	repositories {
-		flatDir {
-			dirs 'repos'
-		}
-	}
+    repositories {
+      flatDir {
+        dirs 'repos'
+      }
+    }
 }
